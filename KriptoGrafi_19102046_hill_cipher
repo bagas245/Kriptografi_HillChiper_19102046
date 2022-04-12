@@ -1,0 +1,48 @@
+import numpy as np
+import string
+import random
+
+
+def encrypt(message):
+    # deklarasi variabel
+    dimension = 3  # nilai n
+    key = np.matrix([[6, 24, 1], [13, 16, 10], [20, 17, 15]])  # kunci
+
+    # generate alfabet
+    alphabet = string.ascii_uppercase
+
+    # hasil enkripsi
+    encryptedMessage = ""
+
+    # ubah pesan menjadi angka lalu generate
+    for index, i in enumerate(message):
+        values = []
+        # Make bloc of N values
+        if index % dimension == 0:
+            for j in range(0, dimension):
+                if(index + j < len(message)):
+                    values.append([alphabet.index(message[index + j])])
+                else:
+                    values.append([random.randint(0, 25)])
+            # enkripsi pesan
+            vector = np.matrix(values)
+            vector = key * vector
+            vector %= 26
+            for j in range(0, dimension):
+                encryptedMessage += alphabet[vector.item(j)]
+
+    # print hasil
+    print(encryptedMessage)
+
+
+if __name__ == "__main__":
+    message = 'SATUSEMBILANSATUNOLDUANOLEMPATENAM'  # pesan
+    encrypt(message)
+    print()
+
+    message = "ALVINBAGASOCTAVIANDI"
+    encrypt(message)
+    print()
+
+    message = "SELAMATPAGIPAK"
+    encrypt(message)
